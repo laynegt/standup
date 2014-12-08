@@ -1,0 +1,19 @@
+{{#each person in model}}
+    <li {{bind-attr class=":person person.present"}}>
+        <span class="person-name" {{action 'togglePresent' person}}>{{person.name}} - {{person.present}}</span>
+        <span class="person-close" {{action 'removePerson' person}}>x</span>
+    </li>
+{{/each}}
+
+<div class="sect-random">
+<button {{action 'pickWinner'}} {{bind-attr disabled="notEnoughPeople"}}>Random!</button>
+</div>
+
+<div class="sect-winner">{{randomWinner.name}}</div>
+
+<div class="sect-entry">
+{{input type="text" value=newName length="10"}}<button {{action 'addPerson'}}>Add Name</button>
+</div>
+
+<!--
+<div id="names-home"></div>-->

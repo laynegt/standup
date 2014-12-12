@@ -18,6 +18,17 @@ var HomeController = Ember.ArrayController.extend({
       this.set('randomWinner', people.objectAt(randomIndex));
     },
 
+    'scrollWinners': function(){
+      var self = this;
+
+      var callPickWinner = function(){
+        self.send('pickWinner');
+      };
+      for(var i=1; i<=6; i++) {
+        Ember.run.later(callPickWinner, 300*i);
+      }
+    },
+
     'addPerson': function(){
       var name = this.get('newName'), self = this;
 
@@ -28,27 +39,34 @@ var HomeController = Ember.ArrayController.extend({
       name = name.trim();
 
       // check for dupes
-      this.store.find('person').then(function(names) {
-        if (names.findBy('name', name)) {
-          alert('Cannot add duplicate name!');
-        }
-        else {
-          // if not a dupe, add it
-          var person = self.store.createRecord('person', {
-            name: name,
-            present: true // assume is present if you're entering them...
-          });
+      var names = this.get('model').mapBy('name');
+      if (names.find(function(item){
+          return item.toLowerCase() === name.toLowerCase();
+        })) {
+        alert('Cannot add duplicate name!');
+        return;
+      }
+      else {
+        // if not a dupe, add it
+        var person = self.store.createRecord('person', {
+          name: name,
+          present: true // assume is present if you're entering them...
+        });
 
-          person.save().then(function () {
-            self.set('newName', '');
-          });
-        }
-      });
+        person.save().then(function () {
+          self.set('newName', '');
+
+          Ember.$('#new_name').focus();
+        });
+      }
+
     },
 
     'removePerson': function(person) {
-      person.deleteRecord();
-      person.save();
+      if (confirm('Delete ' + person.get('name') + '?')) {
+        person.deleteRecord();
+        person.save();
+      }
     }
 
   },

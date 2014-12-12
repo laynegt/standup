@@ -1,18 +1,21 @@
-{{#each person in model}}
-    <li {{bind-attr class=":person person.present"}}>
-        <span class="person-name" {{action 'togglePresent' person}}>{{person.name}} - {{person.present}}</span>
-        <span class="person-close" {{action 'removePerson' person}}>x</span>
+{{#each person in model itemController="person"}}
+    <li {{bind-attr class=":person person.present::absent person.isWinner:winner:"}}>
+        <div {{bind-attr class=":person-check person.present:present:absent"}}></div>
+        <div class="person-name" {{action 'togglePresent' person}}>{{person.name}}
+            <span class="person-close" {{action 'removePerson' person}}>&times;</span>
+        </div>
     </li>
 {{/each}}
 
 <div class="sect-random">
-<button {{action 'pickWinner'}} {{bind-attr disabled="notEnoughPeople"}}>Random!</button>
+<button {{action 'scrollWinners'}} {{bind-attr disabled="notEnoughPeople"}}>Random!</button>
 </div>
 
-<div class="sect-winner">{{randomWinner.name}}</div>
+<div class="sect-winner"><h1>{{randomWinner.name}}</h1></div>
 
 <div class="sect-entry">
-{{input type="text" value=newName length="10"}}<button {{action 'addPerson'}}>Add Name</button>
+  {{input id="new_name" type="text" value=newName length="10" action='addPerson'}}
+  <button {{action 'addPerson'}}>&plus;</button>
 </div>
 
 <!--

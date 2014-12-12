@@ -1,31 +1,70 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700,400italic);
+
 html, body {
-  margin: 20px;
+  margin: 0px;
 }
 
 body {
-  font-family: Lato,Helvetica,Arial,sans-serif;
+  //font-family: Lato,Helvetica,Arial,sans-serif;
+  font-family: 'Roboto', sans-serif;
+}
+
+.status-bar {
+  max-height: 60px;
+  padding: 16px 16px 16px 20px;
+  background-color: #FF9800;
+  color: white;
+  font-size: 22px;
 }
 
 li.person {
-  background-color: black;
-  color: white;
   padding: 3px;
   margin: 5px;
+  max-width: 250px;
+  height: 40px;
+
   list-style-type: none;
   border-radius: 2px;
   border: 2px solid transparent;
   cursor: pointer;
 
-  &.present {
-    background-color: orange;
+  &.absent {
+    opacity: 0.4;
   }
 
   &:hover {
     border: 2px solid skyblue;
   }
 
+  &.winner {
+    background-color: #9E9E9E;
+  }
+
+  div.person-check {
+    width: 24px;
+    height: 24px;
+    float: left;
+    margin-right: 20px;
+
+    &.present {
+      background-image: url(../images/icon/ic_green_account_circle_24px.svg);
+    }
+
+    &.absent {
+      background-image: url(../images/icon/ic_gray_account_circle_24px.svg);
+    }
+  }
+
+  div.person-name {
+    border-bottom: 1px solid #9E9E9E;
+  }
+
   span.person-close {
     float: right;
+
+    &:hover {
+      color: grey;
+    }
   }
 }
 
